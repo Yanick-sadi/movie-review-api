@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 from . import views
 
 urlpatterns = [
@@ -13,4 +14,7 @@ urlpatterns = [
     path('reviews/', views.ReviewListCreateView.as_view(), name='review-list-create'),
     path('reviews/<int:pk>/', views.ReviewDetailView.as_view(), name='review-detail'),
     path('movies/<str:movie_title>/reviews/', views.movie_reviews, name='movie-reviews'),
+    
+    # API authentication (for browsable API)
+    path('auth/', include('rest_framework.urls')),
 ]
