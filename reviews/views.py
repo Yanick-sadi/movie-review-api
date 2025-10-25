@@ -6,8 +6,19 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from django.db.models import Q
 from .models import User, Review
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from .serializers import UserRegistrationSerializer, UserSerializer, ReviewSerializer
 
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'register': reverse('user-register', request=request, format=format),
+        'user-profile': reverse('user-detail', request=request, format=format),
+        'reviews': reverse('review-list-create', request=request, format=format),
+        'movie-reviews': 'api/movies/{movie_title}/reviews/',
+    })
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
