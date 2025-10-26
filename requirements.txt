@@ -2,9 +2,9 @@ Django==4.2.7
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 django-cors-headers==4.3.1
-django-filters==23.3
+django-filter==23.2  # Fixed version and name
 gunicorn==21.2.0
 dj-database-url==2.1.0
 whitenoise==6.6.0
-pillow==9.5.0
+Pillow==9.5.0
 pyjwt==2.8.0
