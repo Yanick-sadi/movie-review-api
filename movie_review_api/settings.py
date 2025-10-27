@@ -95,6 +95,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For collectstatic
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # For development static files
+]
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -145,6 +149,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # Custom user model
 AUTH_USER_MODEL = 'reviews.User'
+
 # =============================================================================
 # HEROKU DEPLOYMENT SETTINGS
 # =============================================================================
@@ -167,10 +172,6 @@ if 'DYNO' in os.environ:
         )
     }
     
-    # Static files configuration for Heroku
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATIC_URL = '/static/'
-    
     # Add WhiteNoise for static files
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -178,9 +179,6 @@ if 'DYNO' in os.environ:
     # ========================
     # SECURITY SETTINGS
     # ========================
-    
-    # Use environment variable for secret key in production
-    SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
     
     # SSL/HTTPS settings
     SECURE_SSL_REDIRECT = True
@@ -190,12 +188,21 @@ if 'DYNO' in os.environ:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     
-    # HSTS Settings (be careful with this - can break your site if misconfigured)
-    # SECURE_HSTS_SECONDS = 31536000  # 1 year
-    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    # SECURE_HSTS_PRELOAD = True
-    
     # Additional security
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
+
+# =============================================================================
+# PythonAnywhere Deployment Settings
+# =============================================================================
+
+# Check if we're on PythonAnywhere
+if 'PYTHONANYWHERE_DOMAIN' in os.environ:
+    DEBUG = False
+    ALLOWED_HOSTS = ['.pythonanywhere.com', 'localhost', '127.0.0.1']
+    
+    # Use environment variable for secret key
+    SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+    
+    # Additional PythonAnywhere specific settings can go here

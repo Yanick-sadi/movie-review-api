@@ -1,0 +1,1 @@
+/* This directory is for our custom static files*/
